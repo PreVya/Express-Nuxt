@@ -28,8 +28,13 @@ let connection=mysql.createConnection({
 app.get("/view", cors(), (req,res) => {
     const sqlGet = "SELECT * FROM user";
     connection.query(sqlGet, (error, result) => {
+      console.log("Hello")
+      if (error){
+        console.log("Error", error)
+        return;
+      };
+      console.log("View Data",result);
       res.send(result);
-      console.log("View Data",result.body)
     });
   });
 
@@ -43,10 +48,31 @@ app.get("/view", cors(), (req,res) => {
         return;
       }
       res.send(result.body);
-      console.log(req.body);
+      console.log([userDetail]);
     });
   });
 
+  app.post("/update", cors(), (req, res) => {
+    const userDetail = [Object.values(req.body)];
+    const sqlUpdate = "UPDATE user SET Name = ?, Email = ? WHERE Id = ?";
+    
+    
+    const updatedName = req.body.Name;
+    const updatedEmail = req.body.Email;
+    const userId = req.body.Id;
+    
+    connection.query(sqlUpdate, [updatedName, updatedEmail, userId], (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred' });
+        return;
+      }
+      
+      res.send(result.body);
+      console.log([userDetail]);
+    });
+  });
+  
 app.listen(3001,()=>{
     console.log("server is running....");
 });

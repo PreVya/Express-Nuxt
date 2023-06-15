@@ -20,11 +20,10 @@ data() {
   return {
     id:'',
     name:'',
-    email:'', // Initialize id as null or any default value you prefer
+    email:'',
   };
 },
 // async mounted() {
-//   // Assuming you fetch an array of strings from an API
 //   const response = await this.$axios.get('/select');
 //   this.id = response.data;
 // },
